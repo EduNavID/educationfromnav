@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - EduNav</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #f8fafc, #eef2ff);
+        }
+        .page-container {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .page-container.is-exiting {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-indigo-600">EduNav</a>
+            <button id="nav-toggle-button" class="font-semibold text-indigo-600 border border-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-600 hover:text-white transition-colors duration-300">
+                Sign Up
+            </button>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 flex items-center justify-center flex-grow">
+        <div id="signup-container" class="w-full max-w-md page-container hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl">
+                <div id="signup-view">
+                    <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-2">Daftar Akun Baru</h2>
+                    <p class="text-center text-gray-500 mb-6">Isi data di bawah untuk mendaftar.</p>
+                    <form id="signup-form" class="space-y-4">
+                        <div>
+                            <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="signup-email" class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="signup-username" class="block text-sm font-medium text-gray-700">Username</label>
+                            <input type="text" id="signup-username" class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div id="signup-error" class="hidden text-red-500 text-sm text-center pt-1"></div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                            Daftar
+                        </button>
+                    </form>
+                </div>
+                <div id="password-display" class="hidden text-center">
+                    <h3 class="text-2xl font-bold text-green-600">Akun Dibuat!</h3>
+                    <p class="text-gray-600 mt-2">Ini password Anda. Harap simpan baik-baik.</p>
+                    <div class="mt-4 flex items-center bg-gray-100 p-3 rounded-lg border-2 border-dashed">
+                        <input id="generated-password" type="text" class="w-full font-mono text-2xl tracking-widest text-center text-gray-800 bg-transparent" readonly>
+                    </div>
+                     <button id="proceed-to-login-button" class="mt-6 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                        Saya Sudah Simpan, Lanjut Login
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="login-container" class="w-full max-w-md page-container">
+            <div class="bg-white p-8 rounded-xl shadow-2xl">
+                <h2 id="login-greeting" class="text-3xl font-extrabold text-center text-gray-900 mb-2">Selamat Datang!</h2>
+                <p class="text-center text-gray-500 mb-6">Silakan masuk untuk melanjutkan.</p>
+                <form id="login-form" class="space-y-6">
+                    <div>
+                        <label for="login-username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="login-username" class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="login-password" class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                    </div>
+                     <div id="login-error" class="hidden text-red-500 text-sm text-center pt-1"></div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 text-lg">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-white/80 backdrop-blur-lg">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            &copy; 2025 EduNav. Seluruh hak cipta dilindungi.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupContainer = document.getElementById('signup-container');
+            const loginContainer = document.getElementById('login-container');
+            const navToggleButton = document.getElementById('nav-toggle-button');
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const signupError = document.getElementById('signup-error');
+            const loginError = document.getElementById('login-error');
+            const signupView = document.getElementById('signup-view');
+            const passwordDisplay = document.getElementById('password-display');
+            const generatedPasswordInput = document.getElementById('generated-password');
+            const proceedToLoginButton = document.getElementById('proceed-to-login-button');
+            
+            const USER_DB_KEY = 'eduNavUserDatabase';
+            const ACCOUNT_CREATED_KEY = 'eduNavAccountCreated';
+
+            // --- [PERMINTAAN BARU] Menambahkan akun admin darurat ---
+            // Fungsi ini memastikan akun 'admin' selalu ada di database browser.
+            (function seedAdminAccount() {
+                let userDb = JSON.parse(localStorage.getItem(USER_DB_KEY) || '{}');
+                // Periksa apakah akun admin belum ada
+                if (!userDb['admin']) {
+                    userDb['admin'] = { 
+                        email: 'admin@edunav.com', // Email default
+                        password: '120107100307',
+                        profile: {
+                            avatar: `https://placehold.co/96x96/4338ca/FFFFFF?text=A`, // Avatar khusus admin
+                            stats: { simulasi: 0, rataRata: 0, peringkat: "N/A" },
+                            history: []
+                        }
+                    };
+                    // Simpan kembali database yang sudah diperbarui
+                    localStorage.setItem(USER_DB_KEY, JSON.stringify(userDb));
+                }
+            })();
+            // --- Akhir dari blok akun darurat ---
+
+
+            // --- Cek apakah akun sudah pernah dibuat ---
+            const hasCreatedAccount = localStorage.getItem(ACCOUNT_CREATED_KEY);
+            if (hasCreatedAccount) {
+                // Jika ya, sembunyikan tombol Sign Up dan pastikan hanya form login yang tampil
+                navToggleButton.style.display = 'none';
+                signupContainer.classList.add('hidden');
+                loginContainer.classList.remove('hidden');
+            }
+
+            // --- Fungsi untuk berpindah halaman (Login/Sign Up) ---
+            const switchPage = (pageToShow, pageToHide) => {
+                pageToHide.classList.add('is-exiting');
+                setTimeout(() => {
+                    pageToHide.classList.add('hidden');
+                    pageToHide.classList.remove('is-exiting');
+                    pageToShow.classList.remove('hidden');
+                }, 300);
+            };
+
+            // --- Event Listener untuk tombol navigasi header ---
+            navToggleButton.addEventListener('click', () => {
+                const isLoginVisible = !loginContainer.classList.contains('hidden');
+                if (isLoginVisible) {
+                    switchPage(signupContainer, loginContainer);
+                    navToggleButton.textContent = 'Login';
+                } else {
+                    switchPage(loginContainer, signupContainer);
+                    navToggleButton.textContent = 'Sign Up';
+                }
+            });
+
+            // --- Logika Sign Up ---
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('signup-email').value.trim();
+                const username = document.getElementById('signup-username').value.trim().toLowerCase();
+                signupError.classList.add('hidden');
+
+                if (!email || !username) {
+                    signupError.textContent = 'Email dan Username harus diisi.';
+                    signupError.classList.remove('hidden');
+                    return;
+                }
+
+                let userDb = JSON.parse(localStorage.getItem(USER_DB_KEY) || '{}');
+                if (userDb[username]) {
+                    signupError.textContent = 'Username sudah digunakan.';
+                    signupError.classList.remove('hidden');
+                    return;
+                }
+
+                const newPassword = Math.random().toString(36).slice(-8);
+                
+                userDb[username] = { 
+                    email: email, 
+                    password: newPassword,
+                    profile: {
+                        avatar: `https://placehold.co/96x96/e0e7ff/4f46e5?text=${username.charAt(0).toUpperCase()}`,
+                        stats: { simulasi: 0, rataRata: 0, peringkat: "N/A" },
+                        history: []
+                    }
+                };
+                localStorage.setItem(USER_DB_KEY, JSON.stringify(userDb));
+                localStorage.setItem(ACCOUNT_CREATED_KEY, 'true');
+
+                generatedPasswordInput.value = newPassword;
+                signupView.classList.add('hidden');
+                passwordDisplay.classList.remove('hidden');
+                navToggleButton.style.display = 'none';
+            });
+
+            // --- Tombol untuk lanjut ke login setelah sign up ---
+            proceedToLoginButton.addEventListener('click', () => {
+                switchPage(loginContainer, signupContainer);
+                navToggleButton.textContent = 'Sign Up';
+            });
+
+            // --- Logika Login ---
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('login-username').value.trim().toLowerCase();
+                const password = document.getElementById('login-password').value.trim();
+                loginError.classList.add('hidden');
+
+                const userDb = JSON.parse(localStorage.getItem(USER_DB_KEY) || '{}');
+                const storedUserData = userDb[username];
+
+                if (storedUserData && password === storedUserData.password) {
+                    // --- Login Berhasil ---
+                    const userProfile = {
+                        username: username,
+                        email: storedUserData.email,
+                        ...storedUserData.profile // Gabungkan data profil
+                    };
+                    localStorage.setItem('loggedInUser', JSON.stringify(userProfile));
+                    window.location.href = './beranda.html'; 
+                } else {
+                    // --- Login Gagal ---
+                    loginError.textContent = 'Username atau password salah.';
+                    loginError.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
